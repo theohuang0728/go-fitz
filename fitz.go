@@ -155,6 +155,12 @@ func NewFromMemory(b []byte) (f *Document, err error) {
 
 // NewFromReader returns new fitz document from io.Reader.
 func NewFromReader(r io.Reader) (f *Document, err error) {
+	defer func() {
+		if recover() != nil {
+			err = errors.New("Cannot read the PDF file and an unexpected panic is handled.")
+		}
+	}()
+	
 	b, e := ioutil.ReadAll(r)
 	if e != nil {
 		err = e
@@ -173,6 +179,12 @@ func (f *Document) NumPage() int {
 
 // Image returns image for given page number.
 func (f *Document) Image(pageNumber int) (image.Image, error) {
+	defer func() {
+		if recover() != nil {
+			err = errors.New("Cannot convert the PDF page to an image and an unexpected panic is handled.")
+		}
+	}()
+	
 	return f.ImageDPI(pageNumber, 300.0)
 }
 
