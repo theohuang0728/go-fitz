@@ -178,7 +178,7 @@ func (f *Document) NumPage() int {
 }
 
 // Image returns image for given page number.
-func (f *Document) Image(pageNumber int) (image.Image, error) {
+func (f *Document) Image(pageNumber int) (img image.Image, err error) {
 	defer func() {
 		if recover() != nil {
 			err = errors.New("Cannot convert the PDF page to an image and an unexpected panic is handled.")
